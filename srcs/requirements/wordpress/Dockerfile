@@ -20,7 +20,7 @@ RUN mkdir -p /var/www/mysite
 RUN mkdir -p /var/lib/mysql/
 RUN chown -R www-data:www-data /var/www/mysite
 
-RUN chmod 777 wordpress/
+RUN chown -R www-data:www-data wordpress
 RUN mv wordpress /var/www/mysite/
 
 

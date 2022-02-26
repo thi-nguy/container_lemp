@@ -1,67 +1,61 @@
 version: '3'
 services: #(where container list goes)
-  nginx: #name we want to set to our container, if not specified, it will give a random name
-    build:  # Do khong dung image tai tren Docker hub nen ta phai build image truoc
-      context: ./requirements/nginx/ #go to this directory, look for and run Dockerfile
-      dockerfile: Dockerfile
-    container_name: nginx
-    depends_on:
-      - wordpress
-      - mariadb
-    networks:
-      - docker_inside_network
-    ports:
-      - 443:443 # host:container
-    # expose:
-    #   - 9000
-    volumes: #name of volume : link to volume at host machine
-      - /home/thi-nguy/data/wordpress-data:/var/www/mysite/wordpress
-    restart: always
+  # nginx: #name we want to set to our container, if not specified, it will give a random name
+  #   build:  # Do khong dung image tai tren Docker hub nen ta phai build image truoc
+  #     context: ./requirements/nginx/ #go to this directory, look for and run Dockerfile
+  #     dockerfile: Dockerfile
+  #   container_name: nginx
+  #   depends_on:
+  #     - wordpress
+  #   networks:
+  #     - docker_inside_network
+  #   ports:
+  #     - 443:443 # host:container
+  #   expose:
+  #     - 443
+  #   volumes: #name of volume : link to volume at host machine
+  #     - /home/thi-nguy/data/wordpress-data:/var/www/mysite/wordpress
+  #   restart: always
+
   mariadb:
     build: 
       context: ./requirements/mariadb/
       dockerfile: Dockerfile
     container_name: mariadb
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     networks:
       - docker_inside_network
     volumes:
       - /home/thi-nguy/data/mariadb-data:/var/lib/mysql/
-    environment:
-      MYSQL_ROOT_PASSWORD: Password2022
-      MYSQL_DATABASE: wordpressdb
-      MYSQL_USER: user_db_wp
-      MYSQL_USER_PASSWORD: Password2022
-    # expose:
-    #   - 3306
+    env_file:
+      - ".env"
+    expose:
+      - 3306
     restart: always
-  wordpress:
-    build: 
-      context: ./requirements/wordpress/
-      dockerfile: Dockerfile
-    container_name: wordpress
-    
-    depends_on:
-      - mariadb
-    networks:
-      - docker_inside_network
-    ports:
-      - 9000:9000
-    # expose:
-    #   - 3306
-    #   - 9000
-    environment:
-      MYSQL_ROOT_PASSWORD: Password2022
-      DB_NAME: wordpressdb
-      DB_USER: user_db_wp
-      DB_PASSWORD: Password2022
-      DB_HOST: mariadb:3306
-    volumes: # source-host: destination-container
-      - /home/thi-nguy/data/wordpress-data:/var/www/mysite/wordpress
-    restart: always
+
+  # wordpress:
+  #   build: 
+  #     context: ./requirements/wordpress/
+  #     dockerfile: Dockerfile
+  #   container_name: wordpress
+  #   depends_on:
+  #     - mariadb
+  #   networks:
+  #     - docker_inside_network
+  #   # ports:
+  #   #   - 9000:9000
+  #   expose:
+  #     - 9000
+  #   env_file:
+  #     - ".env"
+  #   volumes: # source-host: destination-container
+  #     - /home/thi-nguy/data/wordpress-data:/var/www/mysite/wordpress
+  #   restart: always
+
 networks:
   docker_inside_network:
+    driver: bridge
 
 # volumes:
 #   wordpress-vol:

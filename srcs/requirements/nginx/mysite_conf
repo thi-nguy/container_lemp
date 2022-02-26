@@ -1,11 +1,12 @@
 server {
     listen 443 ssl;
+    listen [::]:443 ssl;
+
     server_name             thi-nguy.42.fr;
-    server_tokens           off;
+
     ssl_certificate         /etc/nginx/my-server-cert.crt;
     ssl_certificate_key     /etc/nginx/my-server-cert.key;
-    ssl                     on;
-    ssl_protocols           TLSv1.3;
+    ssl_protocols           TLSv1.2 TLSv1.3;
     ssl_ciphers             "HIGH !aNULL !eNULL !EXPORT !CAMELLIA !DES !MD5 !PSK !RC4";
 
     root                    /var/www/mysite/wordpress;
@@ -15,8 +16,11 @@ server {
         try_files $uri $uri/ =404;
     }
     location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+
+        include             fastcgi_params;
+        fastcgi_pass        wordpress:9000;
+        fastcgi_param       SCRIPT_FILENAME /var/www/mysite/wordpress/$fastcgi_script_name;
+        fastcgi_index       index.php;
     }
 
     location ~ /\.ht {

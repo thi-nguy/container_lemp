@@ -6,7 +6,8 @@ SRCS	:= ./srcs/docker-compose.yml
 all : prepare build
 
 build:
-	docker-compose -f $(SRCS) up
+	docker-compose -f $(SRCS) up -d
+# --build -d
 # mkdir -parents: creates the directory and, if required, all parent directories. 
 prepare:
 	sudo mkdir -p $(MARIADB_VOLUME)
@@ -21,8 +22,14 @@ stop:
 
 # Stop container and remove files created
 # https://www.educba.com/docker-system-prune/
-clean:
+clean: stop
 	docker system prune -a
+# docker rm $(docker ps -qa)
+# docker rmi -f $(docker images -qa)
+# docker volume rm $(docker volume ls -q)
+# docker network rm $(docker network ls -q) 2>/dev/null
 	sudo rm -rf /home/thi-nguy/data
+
+re: clean all
 
 .PHONY : all build prepare stop clean
