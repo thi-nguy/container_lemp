@@ -28,8 +28,10 @@ mysql -u root -e "INSERT INTO $DB_NAME.wp_users (user_login,user_pass,user_nicen
 
 # This does not work
 
-sed -i "s|skip-networking|# skip-networking|g" /etc/my.cnf
-sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf
+# echo "skip-networking" >> /etc/mysql/my.cnf
+echo "bind-address=0.0.0.0" >> /etc/mysql/my.cnf
+
+service mysql start
 
 # mysql -h 127.0.0.1 -P 3306 -u root -p $DB_NAME
 exec mysqld && mariadb
