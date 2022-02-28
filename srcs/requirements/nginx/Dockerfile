@@ -16,7 +16,7 @@ RUN apt-get -y install openssl
 COPY ./nginx.conf /etc/nginx/sites-available/
 
     # ! Link nginx to your site folder and unlink to the default folder
-RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
+RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
 RUN unlink /etc/nginx/sites-enabled/default
 
 
