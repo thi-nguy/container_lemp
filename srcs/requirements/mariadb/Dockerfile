@@ -18,7 +18,6 @@ RUN mkdir -p /var/lib/mysql/
 RUN chown -R mysql:mysql /var/lib/mysql
 
 COPY ./create_db_for_wp.sh /
-# RUN bash ./create_db_for_wp.sh
 
 EXPOSE 3306
 

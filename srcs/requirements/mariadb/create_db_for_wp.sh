@@ -27,8 +27,7 @@ mysql -u root -e "INSERT INTO $MYSQL_DATABASE.wp_users (user_login,user_pass,use
 # https://stackoverflow.com/questions/11657829/error-2002-hy000-cant-connect-to-local-mysql-server-through-socket-var-run
 
 # This does not work
-
-# echo "skip-networking" >> /etc/mysql/my.cnf
+echo "bind-address=0.0.0.0" >> /etc/mysql/my.cnf
 
 # mysql -h 127.0.0.1 -P 3306 -u root -p $MYSQL_DATABASE
 exec mysqld && mariadb
