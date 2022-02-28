@@ -16,17 +16,15 @@ RUN rm -rf latest.zip
 
 # Todo: Copy folder wordpress to /var/www/mysite
     # ! Make a new folder call mysite
-RUN mkdir -p /var/www/mysite
-RUN mkdir -p /var/lib/mysql/
-RUN chown -R www-data:www-data /var/www/mysite
+RUN mkdir -p /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 
-RUN chown -R www-data:www-data wordpress
-RUN mv wordpress /var/www/mysite/
+RUN mv wordpress /var/www/html/ # ! buoc  nay khong copy duoc?
 
 
 RUN apt-get -y install php php-mysql php-fpm
 #source destination
-COPY wp-config.php /var/www/mysite/wordpress/ 
+# COPY wp-config.php /var/www/mysite/wordpress/ 
 COPY www.conf /etc/php/7.3/fpm/pool.d/
 COPY php-fpm.conf /etc/php/7.3/fpm/
 

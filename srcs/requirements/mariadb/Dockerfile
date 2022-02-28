@@ -12,7 +12,10 @@ RUN apt-get -y install mariadb-server mariadb-client
 # Todo: Co can check no enable ko?
 # ! systemctl is-enabled php7.4-fpm
 RUN apt-get -y update 
-RUN apt-get -y upgrade 
+RUN apt-get -y upgrade
+
+RUN mkdir -p /var/lib/mysql/
+RUN chown -R mysql:mysql /var/lib/mysql
 
 COPY ./create_db_for_wp.sh /
 # RUN bash ./create_db_for_wp.sh
