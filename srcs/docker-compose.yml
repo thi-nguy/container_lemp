@@ -45,8 +45,8 @@ services: #(where container list goes)
       - wordpress
     networks:
       - docker_inside_network
-    # ports:
-    #   - 443:443 # host:container
+    ports:
+      - 443:443 # host:container
     expose:
       - 443
     volumes: #name of volume : link to volume at host machine

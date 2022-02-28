@@ -26,8 +26,12 @@ RUN mkdir -p /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
 # RUN adduser -D -g 'www-data' www-data
+
 RUN mkdir -p /scripts
 COPY install_wp.sh /scripts/install_wp.sh
+RUN apt-get install -y mariadb-client
+# RUN apt-get install -y mysql-client
+
 #source-host : destination-container
 
 # # COPY wp-config.php /var/www/html/wordpress # ! buoc  nay khong copy duoc?
