@@ -8,11 +8,11 @@ services: #(where container list goes)
     networks:
       - docker_inside_network
     volumes:
-      - /home/thi-nguy/data/mariadb-data:/var/lib/mysql/
+      - "db_data:/var/lib/mysql"
     env_file:
       - ".env"
     expose:
-      - 3306
+      - "3306"
     restart: always
 
   wordpress:
@@ -27,13 +27,13 @@ services: #(where container list goes)
     # ports:
     #   - 9000:9000
     expose:
-      - 9000
+      - "9000"
     env_file:
       - ".env"
     links:
       - mariadb
     volumes: # source-host: destination-container
-      - /home/thi-nguy/data/wordpress-data:/var/www/html
+      - "wp:/var/www/html/wordpress"
     restart: always
 
   nginx: #name we want to set to our container, if not specified, it will give a random name
@@ -46,12 +46,11 @@ services: #(where container list goes)
     networks:
       - docker_inside_network
     ports:
-      - 443:443 # host:container
+      - "443:443" # host:container
     expose:
-      - 443
+      - "443"
     volumes: #name of volume : link to volume at host machine
-      # - nginx:/etc/nginx/conf.d
-      - /home/thi-nguy/data/wordpress-data:/var/www/html
+      - "wp:/var/www/html/wordpress"
     links:
       - wordpress
     restart: always
@@ -62,17 +61,16 @@ networks:
   docker_inside_network:
     driver: bridge
 
-# volumes:
-#   wordpress-vol:
-#     # # name: wordpress-data
-#     driver: local
-#     driver_opts:
-#       type: none
-#       o: bind
-#       device: /home/thi-nguy/data/wordpress-data
-#   mariadb-vol:
-#     driver: local
-#     driver_opts:
-#       type: 'none'
-#       o: 'bind'
-#       device: /home/thi-nguy/data/mariadb-data
+volumes:
+  wp:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/thi-nguy/data/wp
+      o: bind
+  db_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: /home/thi-nguy/data/mysql
+      o: 'bind'
