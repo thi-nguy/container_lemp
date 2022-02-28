@@ -1,17 +1,17 @@
 #!/bin/bash
-chown -R www-data:www-data .
-while ! mariadb -h$WORDPRESS_DB_HOST -u$WORDPRESS_DB_USER -p$WORDPRESS_DB_PASSWORD &>/dev/null; do
-	echo "waiting for $WORDPRESS_DB_HOST ..."
-	sleep 2
-done
+# chown -R www-data:www-data .
+# while ! mariadb -h$WORDPRESS_DB_HOST -u$WORDPRESS_DB_USER -p$WORDPRESS_DB_PASSWORD &>/dev/null; do
+# 	echo "waiting for $WORDPRESS_DB_HOST ..."
+# 	sleep 2
+# done
 
 if [ ! -f "/var/www/html/wordpress/index.php" ]; then
-	wp core download && \
-	wp config create --dbname=$WORDPRESS_DB_NAME --dbuser=$WORDPRESS_DB_USER --dbpass=$WORDPRESS_DB_PASSWORD --dbhost=$WORDPRESS_DB_HOST --dbcharset="utf8" && \
-	wp core install --url=$DOMAIN_NAME --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --skip-email && \
-	wp user create $WP_USER $WP_EMAIL --role=author --user_pass=$WP_USER_PASSWORD && \
-	wp theme install blocksy --activate && \
-	wp plugin update --all'
-fi
+    wp core download --allow-root
+    wp config create --dbname=$WORDPRESS_DB_NAME --dbuser=$WORDPRESS_DB_USER --dbpass=$WORDPRESS_DB_PASSWORD --dbhost=$WORDPRESS_DB_HOST --dbcharset="utf8" --allow-root 
+    wp core install --url=$DOMAIN_NAME --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root 
+fi 
+# wp user create $WP_USER $WP_EMAIL --role=author --user_pass=$WP_USER_PASSWORD --allow-root 
+# wp theme install blocksy --activate --allow-root 
+# wp plugin update --all --allow-root
 
-exec php-fpm7 -F
+exec php-fpm7.3 -F

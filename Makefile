@@ -18,9 +18,9 @@ prepare:
 # sudo useradd -u 999 mysql
 # sudo chown -R mysql:mysql $(MARIADB_VOLUME)
 # sudo mkdir -p $(WORDPRESS_VOLUME)
-# sudo userdel -f www-data
-# sudo useradd -u 82 www-data
-# sudo chown -R www-data:www-data $(WORDPRESS_VOLUME)
+	sudo userdel -f www-data
+	sudo useradd -u 82 www-data
+	sudo chown -R www-data:www-data $(WORDPRESS_VOLUME)
 # sudo chmod 777 /etc/hosts
 # echo "127.0.0.1 " $(DOMAIN_NAME) >> /etc/hosts
 
