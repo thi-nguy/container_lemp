@@ -13,7 +13,7 @@ RUN apt-get -y install openssl
 # Todo 1: Change default index file to mysite's index
 # * --> can onpen: http://thi-nguy.42.fr at the end of this step
     # ! copy config file
-COPY ./nginx.conf /etc/nginx/sites-available/
+COPY ./conf/nginx.conf /etc/nginx/sites-available/
 
     # ! Link nginx to your site folder and unlink to the default folder
 RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf

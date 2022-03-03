@@ -6,7 +6,7 @@ RUN apk update && apk upgrade && \
 
 # Move runner
 RUN mkdir -p /scripts
-COPY ./create_db_for_wp.sh /scripts/
+COPY ./tools/create_db_for_wp.sh /scripts/
 RUN chmod +x /scripts/create_db_for_wp.sh
 
 EXPOSE 3306

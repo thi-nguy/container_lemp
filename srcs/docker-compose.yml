@@ -66,11 +66,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/thi-nguy/data/wp
+      device: /mnt/nfs/homes/thi-nguy/data/wp
       o: bind
   db_data:
     driver: local
     driver_opts:
       type: 'none'
-      device: /home/thi-nguy/data/mysql
+      device: /mnt/nfs/homes/thi-nguy/data/mysql
       o: 'bind'

@@ -10,17 +10,15 @@ build:
 # --build -d
 # mkdir -parents: creates the directory and, if required, all parent directories. 
 prepare:
-	sudo mkdir /home/thi-nguy/data
-	sudo mkdir /home/thi-nguy/data/wp
-	sudo mkdir /home/thi-nguy/data/mysql
+	bash prepare.sh
 # sudo mkdir -p $(MARIADB_VOLUME)
 # sudo userdel -f mysql
 # sudo useradd -u 999 mysql
 # sudo chown -R mysql:mysql $(MARIADB_VOLUME)
 # sudo mkdir -p $(WORDPRESS_VOLUME)
-	sudo userdel -f www-data
-	sudo useradd -u 82 www-data
-	sudo chown -R www-data:www-data $(WORDPRESS_VOLUME)
+# sudo userdel -f www-data
+# sudo useradd -u 82 www-data
+# sudo chown -R www-data:www-data $(WORDPRESS_VOLUME)
 # sudo chmod 777 /etc/hosts
 # echo "127.0.0.1 " $(DOMAIN_NAME) >> /etc/hosts
 
@@ -31,14 +29,15 @@ stop:
 
 # Stop container and remove files created
 # https://www.educba.com/docker-system-prune/
-clean: stop
+clean-docker: stop
 	docker system prune -a
 # docker rm $(docker ps -qa)
 # docker rmi -f $(docker images -qa)
 # docker volume rm $(docker volume ls -q)
 # docker network rm $(docker network ls -q) 2>/dev/null
+clean-volume: 
 	sudo rm -rf /home/thi-nguy/data
 
-re: clean all
+re: clean-docker clean-volume all
 
-.PHONY : all build prepare stop clean
+.PHONY : all build prepare stop clean-docker clean-volume

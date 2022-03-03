@@ -28,15 +28,15 @@ RUN chown -R www-data:www-data /var/www/html
 RUN userdel -f www-data && useradd -u 82 www-data
 
 RUN mkdir -p /scripts
-COPY install_wp.sh /scripts/install_wp.sh
+COPY ./tools/install_wp.sh /scripts/install_wp.sh
 RUN apt-get install -y mariadb-client
 # RUN apt-get install -y mysql-client
 
 #source-host : destination-container
 
 # # COPY wp-config.php /var/www/html/wordpress # ! buoc  nay khong copy duoc?
-COPY www.conf /etc/php/7.3/fpm/pool.d/ 
-COPY php-fpm.conf /etc/php/7.3/fpm/
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/ 
+COPY ./conf/php-fpm.conf /etc/php/7.3/fpm/
 
     # ! Install wp-cli and install wordpress by wp-cli
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
@@ -44,8 +44,6 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 # RUN cd /var/www/html
 # RUN php-fpm7.4 --nodaemonize
 # RUN wp core install --url=https://thi-nguy.42.fr --title=NhungSite --admin_user=nhungNguyen --admin_password=secret --admin_email=nhungNguyen@example.com --alow-root
-
-
 
 WORKDIR /var/www/html/wordpress
 
