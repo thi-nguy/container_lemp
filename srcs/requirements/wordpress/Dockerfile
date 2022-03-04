@@ -27,6 +27,7 @@ RUN mkdir -p /my_scripts
 COPY ./tools/install_wp.sh /my_scripts/install_wp.sh
 
 RUN apt-get install -y mariadb-client
+RUN apt-get install -y mysql-client
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/ 
 COPY ./conf/php-fpm.conf /etc/php/7.3/fpm/
