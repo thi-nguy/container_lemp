@@ -2,8 +2,7 @@ FROM debian:buster
 
 RUN apt-get -y update && apt-get -y upgrade
 
-RUN apt-get install -y \
-	 php7-fpm php7-opcache php7-mysqli \
+RUN apt-get install -y php7-fpm php7-opcache php7-mysqli \
 	php7-gd php7-zlib php7-curl php7-iconv \
 	php7-mbstring php7-cli php7-json php7-phar \
 	php7-common php7-session php7-xml php7-imap php7-cgi \
