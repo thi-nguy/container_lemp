@@ -14,9 +14,7 @@ RUN apt-get install -y \
 	php7.3-xml \
 	php7.3-xmlrpc \
 	php7.3-zip \
-	wget \
-	unzip \
-	mariadb-clien
+	wget unzip 
 
 #user:group in debian is www-data
 RUN mkdir -p /var/www/html
@@ -27,6 +25,8 @@ RUN userdel -f www-data && useradd -u 82 www-data
 
 RUN mkdir -p /my_scripts
 COPY ./tools/install_wp.sh /my_scripts/install_wp.sh
+
+RUN apt-get install -y mariadb-client
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/ 
 COPY ./conf/php-fpm.conf /etc/php/7.3/fpm/
