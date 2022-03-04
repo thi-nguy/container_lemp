@@ -14,7 +14,7 @@ RUN apt-get install -y \
 	php7.3-xml \
 	php7.3-xmlrpc \
 	php7.3-zip
-	
+
 RUN apt-get -y install wget && apt-get -y install unzip
 
 #user:group in debian is www-data
@@ -28,7 +28,6 @@ RUN mkdir -p /my_scripts
 COPY ./tools/install_wp.sh /my_scripts/install_wp.sh
 
 RUN apt-get install -y mariadb-client
-RUN apt-get install -y mysql-client
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/ 
 COPY ./conf/php-fpm.conf /etc/php/7.3/fpm/
