@@ -62,14 +62,14 @@ networks:
 
 volumes:
   wp:
-    name: wp
+    name: wp_volume
     driver: local
     driver_opts:
       type: none
       device: /home/thi-nguy/data/wp
       o: bind
   db_data:
-    name: db_data
+    name: db_data_volume
     driver: local
     driver_opts:
       type: 'none'
