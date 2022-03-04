@@ -10,4 +10,4 @@ COPY ./tools/create_db_for_wp.sh /my_scripts/
 RUN chmod +x /my_scripts/create_db_for_wp.sh
 
 EXPOSE 3306
-ENTRYPOINT ["sh", "/scripts/create_db_for_wp.sh"]
+ENTRYPOINT ["sh", "/my_scripts/create_db_for_wp.sh"]
