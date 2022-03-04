@@ -11,7 +11,7 @@ services:
       - "db_data:/var/lib/mysql"
     env_file: # use .env file for environment vairables.
       - ".env"
-    links: # define only names under which the container can be reached (in a same docker network).
+    links: 
       - wordpress
     expose: # Exposing the port to linked services, not to the host machine.
       - "3306"
@@ -30,9 +30,8 @@ services:
       - "9000"
     env_file:
       - ".env"
-    links: 
+    links: # define only names under which the container can be reached (in a same docker network).
       - mariadb
-      - nginx
     volumes:
       - "wp:/var/www/html/wordpress"
     restart: always
