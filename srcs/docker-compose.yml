@@ -11,8 +11,6 @@ services:
       - "db_data:/var/lib/mysql"
     env_file: # use .env file for environment vairables.
       - ".env"
-    links: 
-      - wordpress
     expose: # Exposing the port to linked services, not to the host machine.
       - "3306"
     restart: always
