@@ -5,36 +5,25 @@ SRCS	:= ./srcs/docker-compose.yml
 # Start all containers found in docker-compose.yml
 all : prepare build
 
+# -d: detached mode
 build:
 	docker-compose -f $(SRCS) up -d
-# --build -d
-# mkdir -parents: creates the directory and, if required, all parent directories. 
+
+# prepare database at host machine and configure etc/hosts	
 prepare:
 	bash prepare.sh
-# sudo mkdir -p $(MARIADB_VOLUME)
-# sudo userdel -f mysql
-# sudo useradd -u 999 mysql
-# sudo chown -R mysql:mysql $(MARIADB_VOLUME)
-# sudo mkdir -p $(WORDPRESS_VOLUME)
-# sudo userdel -f www-data
-# sudo useradd -u 82 www-data
-# sudo chown -R www-data:www-data $(WORDPRESS_VOLUME)
-# sudo chmod 777 /etc/hosts
-# echo "127.0.0.1 " $(DOMAIN_NAME) >> /etc/hosts
 
 # Stop all containers found in docker-compose.yml, and remove docker network between them
+# go through all containers and stop them, also stop the network
 stop:
 	docker-compose -f $(SRCS) down
-# go through all containers and stop them, also stop the network
 
 # Stop container and remove files created
 # https://www.educba.com/docker-system-prune/
 clean-docker: stop
 	docker system prune -a
-# docker rm $(docker ps -qa)
-# docker rmi -f $(docker images -qa)
-# docker volume rm $(docker volume ls -q)
-# docker network rm $(docker network ls -q) 2>/dev/null
+
+# Remove database on host machine
 clean-volume: 
 	sudo rm -rf /home/thi-nguy/data
 

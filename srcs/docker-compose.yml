@@ -1,61 +1,60 @@
 version: '3'
-services: #(where container list goes)
+services:
   mariadb:
-    build: 
-      context: ./requirements/mariadb/
+    build: mariadb # set name to image. Otherwise it will take random name.
+      context: ./requirements/mariadb/ #go to this directory, look for and run Dockerfile.
       dockerfile: Dockerfile
-    container_name: mariadb
+    container_name: mariadb # set name to container. Otherwise it will take random name.
     networks:
       - docker_inside_network
-    volumes:
+    volumes: # named volume: link container's volume to host machine's volume.
       - "db_data:/var/lib/mysql"
-    env_file:
+    env_file: # use .env file for environment vairables.
       - ".env"
-    expose:
+    links: # define only names under which the container can be reached (in a same docker network).
+      - wordpress
+    expose: # Exposing the port to linked services, not to the host machine.
       - "3306"
     restart: always
 
   wordpress:
-    build: 
+    build: wordpress
       context: ./requirements/wordpress/
       dockerfile: Dockerfile
     container_name: wordpress
-    depends_on:
+    depends_on: # make sure mariadb is available before starting wordpress
       - mariadb
     networks:
       - docker_inside_network
-    # ports:
-    #   - 9000:9000
     expose:
       - "9000"
     env_file:
       - ".env"
-    links:
+    links: 
       - mariadb
-    volumes: # source-host: destination-container
+      - nginx
+    volumes:
       - "wp:/var/www/html/wordpress"
     restart: always
 
-  nginx: #name we want to set to our container, if not specified, it will give a random name
-    build:  # Do khong dung image tai tren Docker hub nen ta phai build image truoc
-      context: ./requirements/nginx/ #go to this directory, look for and run Dockerfile
+  nginx:
+    build: nginx
+      context: ./requirements/nginx/ 
       dockerfile: Dockerfile
     container_name: nginx
-    depends_on:
+    depends_on: # make sure wordpress is available before starting nginx
       - wordpress
     networks:
       - docker_inside_network
-    ports:
+    ports: # define which port we want to expose and the host port it should be exposed to.
       - "443:443" # host:container
     expose:
       - "443"
-    volumes: #name of volume : link to volume at host machine
+    volumes: 
       - "wp:/var/www/html/wordpress"
     links:
       - wordpress
     restart: always
-
-
 
 networks:
   docker_inside_network:
@@ -66,11 +65,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /mnt/nfs/homes/thi-nguy/data/wp
+      device: /homes/thi-nguy/data/wp
       o: bind
   db_data:
     driver: local
     driver_opts:
       type: 'none'
-      device: /mnt/nfs/homes/thi-nguy/data/mysql
+      device: /homes/thi-nguy/data/mysql
       o: 'bind'
