@@ -27,6 +27,8 @@ clean-docker: stop
 clean-volume: 
 	sudo rm -rf /home/thi-nguy/data
 
+reboot: clean-docker all
+	
 re: clean-docker clean-volume all
 
-.PHONY : all build prepare stop clean-docker clean-volume
+.PHONY : all build prepare stop clean-docker clean-volume reboot
